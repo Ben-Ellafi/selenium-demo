@@ -39,13 +39,26 @@ jobs:
         run: mvn test
         continue-on-error: true
 
-      - name: Generate Allure Report
-        if: always()
-        run: mvn allure:report -Dallure.results.directory=allure-results -Dallure.report.directory=allure-report
-
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: allure-result-files
+          path: ./allure-results
+
+      - name: Ensure Allure Results Exist
+        if: always()
+        run: |
+          mkdir -p target/allure-results
+          cp -r allure-results/* target/allure-results/ || echo "No results to copy"
+
+      - name: Generate Allure Report
+        if: always()
+        run: mvn allure:report
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: allure-report
-          path: allure-results
+          path: ./target/site/allure-maven-plugin/
