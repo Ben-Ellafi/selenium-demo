@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.Before;
 import org.junit.After;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class BaseTest {
     private static WebDriver driver;
@@ -13,7 +14,14 @@ public class BaseTest {
         if (driver == null) {
             System.out.println("Initializing WebDriver...");
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            if (System.getenv("CI") != null) { // Only in GitHub Actions
+                options.addArguments("--headless");
+                options.addArguments("--disable-gpu");
+            }
+            options.addArguments("--no-sandbox");  // Helps prevent permission issues
+            options.addArguments("--disable-dev-shm-usage");  // Prevents shared memory issues
+            driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             System.out.println("WebDriver Initialized!");
         }
