@@ -42,7 +42,7 @@ jobs:
         run: mvn allure:report
 
       - name: Upload Allure Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Change from v3 to v4
         with:
           name: allure-report
           path: target/site/allure-maven-plugin
