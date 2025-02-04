@@ -21,6 +21,20 @@ public class CucumberHooks {
         driver = getDriver(); // Retrieve WebDriver from BaseTest
     }
 
+    @After
+    public void takeScreenshotOnFailure(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshot = captureScreenshot();
+            scenario.attach(screenshot, "image/png", scenario.getName());
+        }
+    }
+
+    @Attachment(value = "Screenshot", type = "image/png")
+    public byte[] captureScreenshot() {
+        driver = getDriver();
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
     // Quit WebDriver after each scenario
     @After
     public void afterScenario(Scenario scenario) {
