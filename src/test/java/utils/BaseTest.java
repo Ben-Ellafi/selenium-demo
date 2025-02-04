@@ -22,7 +22,7 @@ public class BaseTest {
             options.addArguments("--no-sandbox");  // Helps prevent permission issues
             options.addArguments("--disable-dev-shm-usage");  // Prevents shared memory issues
             driver = new ChromeDriver(options);
-            //driver.manage().window().maximize();
+            driver.manage().window().maximize();
             System.out.println("WebDriver Initialized!");
         }
         return driver;
