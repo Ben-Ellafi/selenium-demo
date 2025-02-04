@@ -41,7 +41,7 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: mvn allure:report -Dallure.results.directory=allure-results
+        run: mvn allure:report -Dallure.results.directory=allure-results -Dallure.report.directory=allure-report
 
       - name: Upload Allure Results
         if: always()
